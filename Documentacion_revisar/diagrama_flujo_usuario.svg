@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1080" width="960" height="1080" font-family="'Segoe UI', Arial, sans-serif">
+
+  <!-- ── Fondo general ── -->
+  <rect width="960" height="1080" fill="#0f0f1a"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       CABECERA
+  ══════════════════════════════════════════════════════ -->
+  <rect x="30" y="16" width="900" height="52" rx="10" fill="#1c1c3a" stroke="#4a4aff" stroke-width="1.5"/>
+  <text x="480" y="36" text-anchor="middle" fill="#a0a8ff" font-size="11" letter-spacing="3">POLIDEPORTIVO MADRID · A109</text>
+  <text x="480" y="57" text-anchor="middle" fill="white" font-size="17" font-weight="bold" letter-spacing="1">FLUJO DE USUARIO — Interfaz Gráfica (Raylib/RayGUI)</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       FILA 1: INICIO → CARGA
+  ══════════════════════════════════════════════════════ -->
+
+  <!-- INICIO (óvalo) -->
+  <ellipse cx="150" cy="140" rx="80" ry="30" fill="#2ecc71" stroke="#27ae60" stroke-width="2"/>
+  <text x="150" y="145" text-anchor="middle" fill="white" font-size="14" font-weight="bold">INICIO</text>
+
+  <!-- flecha derecha -->
+  <line x1="230" y1="140" x2="290" y2="140" stroke="#4a4aff" stroke-width="2" marker-end="url(#bl)"/>
+
+  <!-- PANTALLA CARGA -->
+  <rect x="290" y="108" width="230" height="64" rx="8" fill="#1c1c3a" stroke="#4a4aff" stroke-width="2"/>
+  <text x="405" y="129" text-anchor="middle" fill="#a0a8ff" font-size="10" font-style="italic">Ventana Raylib</text>
+  <text x="405" y="147" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Pantalla de Carga</text>
+  <text x="405" y="163" text-anchor="middle" fill="#6a6aaa" font-size="10">RF01 · Abrir fichero CSV</text>
+
+  <!-- flecha derecha → decisión -->
+  <line x1="520" y1="140" x2="580" y2="140" stroke="#4a4aff" stroke-width="2" marker-end="url(#bl)"/>
+
+  <!-- DECISIÓN fichero OK -->
+  <polygon points="650,108 730,140 650,172 570,140" fill="#1c1c3a" stroke="#f39c12" stroke-width="2"/>
+  <text x="650" y="135" text-anchor="middle" fill="#f39c12" font-size="11" font-weight="bold">¿Fichero</text>
+  <text x="650" y="150" text-anchor="middle" fill="#f39c12" font-size="11" font-weight="bold">válido?</text>
+
+  <!-- NO → error (abajo) -->
+  <line x1="650" y1="172" x2="650" y2="212" stroke="#e74c3c" stroke-width="1.8" marker-end="url(#rd)"/>
+  <text x="658" y="196" fill="#e74c3c" font-size="10" font-weight="bold">NO</text>
+  <rect x="590" y="212" width="120" height="36" rx="6" fill="#2c1010" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="650" y="229" text-anchor="middle" fill="#e74c3c" font-size="11" font-weight="bold">Modal de error</text>
+  <text x="650" y="243" text-anchor="middle" fill="#e74c3c" font-size="10">Reintentar</text>
+  <!-- loop error → carga -->
+  <path d="M590,230 Q530,230 530,140 Q530,108 520,108" stroke="#e74c3c" stroke-width="1.4" fill="none" stroke-dasharray="5,3" marker-end="url(#rd)"/>
+
+  <!-- SÍ → menú (flecha derecha) -->
+  <line x1="730" y1="140" x2="800" y2="140" stroke="#2ecc71" stroke-width="2" marker-end="url(#gr)"/>
+  <text x="765" y="133" fill="#2ecc71" font-size="10" font-weight="bold">SÍ</text>
+
+  <!-- DATOS OK badge -->
+  <rect x="800" y="118" width="130" height="44" rx="8" fill="#0d2b1a" stroke="#2ecc71" stroke-width="1.5"/>
+  <text x="865" y="136" text-anchor="middle" fill="#2ecc71" font-size="11" font-weight="bold">Datos cargados</text>
+  <text x="865" y="152" text-anchor="middle" fill="#2ecc71" font-size="10">en memoria dinámica</text>
+
+  <!-- flecha hacia menú principal (baja) -->
+  <line x1="865" y1="162" x2="865" y2="210" stroke="#4a4aff" stroke-width="2"/>
+  <line x1="865" y1="210" x2="480" y2="210" stroke="#4a4aff" stroke-width="2"/>
+  <line x1="480" y1="210" x2="480" y2="236" stroke="#4a4aff" stroke-width="2" marker-end="url(#bl)"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       FILA 2: MENÚ PRINCIPAL
+  ══════════════════════════════════════════════════════ -->
+  <rect x="200" y="236" width="560" height="76" rx="12" fill="#1c1c3a" stroke="#4a4aff" stroke-width="2.5"/>
+  <text x="480" y="258" text-anchor="middle" fill="#a0a8ff" font-size="10" font-style="italic">Ventana principal Raylib · RayGUI buttons</text>
+  <text x="480" y="277" text-anchor="middle" fill="white" font-size="15" font-weight="bold">MENÚ PRINCIPAL</text>
+  <text x="480" y="297" text-anchor="middle" fill="#6a6aaa" font-size="11">[ Listados ]  [ Estadísticas ]  [ Recomendaciones ]  [ Gráficas ]  [ Salir ]</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       FILA 3: RAMAS (4 opciones + salir)
+  ══════════════════════════════════════════════════════ -->
+
+  <!-- Barra horizontal desde menú -->
+  <line x1="480" y1="312" x2="480" y2="340" stroke="#4a4aff" stroke-width="1.8"/>
+  <line x1="100" y1="340" x2="860" y2="340" stroke="#4a4aff" stroke-width="1.8"/>
+
+  <!-- Bajadas a cada módulo -->
+  <line x1="100"  y1="340" x2="100"  y2="370" stroke="#8e44ad" stroke-width="1.8" marker-end="url(#pu)"/>
+  <line x1="310"  y1="340" x2="310"  y2="370" stroke="#2980b9" stroke-width="1.8" marker-end="url(#cy)"/>
+  <line x1="520"  y1="340" x2="520"  y2="370" stroke="#16a085" stroke-width="1.8" marker-end="url(#tl)"/>
+  <line x1="720"  y1="340" x2="720"  y2="370" stroke="#e67e22" stroke-width="1.8" marker-end="url(#or)"/>
+  <line x1="870"  y1="340" x2="870"  y2="370" stroke="#e74c3c" stroke-width="1.8" marker-end="url(#rd)"/>
+
+  <!-- ── Módulo 1: LISTADOS ── -->
+  <rect x="20" y="370" width="160" height="72" rx="8" fill="#1c1c3a" stroke="#8e44ad" stroke-width="2"/>
+  <text x="100" y="390" text-anchor="middle" fill="#c39bd3" font-size="10" font-style="italic">Panel RayGUI</text>
+  <text x="100" y="408" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Listados</text>
+  <text x="100" y="424" text-anchor="middle" fill="#6a6aaa" font-size="10">RF02 · Selector de centro</text>
+  <text x="100" y="438" text-anchor="middle" fill="#6a6aaa" font-size="10">Tabla actividades/hora</text>
+
+  <!-- ── Módulo 2: ESTADÍSTICAS ── -->
+  <rect x="225" y="370" width="170" height="72" rx="8" fill="#1c1c3a" stroke="#2980b9" stroke-width="2"/>
+  <text x="310" y="390" text-anchor="middle" fill="#7fb3d3" font-size="10" font-style="italic">Panel RayGUI</text>
+  <text x="310" y="408" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Estadísticas</text>
+  <text x="310" y="424" text-anchor="middle" fill="#6a6aaa" font-size="10">RF03 · Frecuencia diaria</text>
+  <text x="310" y="438" text-anchor="middle" fill="#6a6aaa" font-size="10">RF04 · Actividad popular</text>
+
+  <!-- ── Módulo 3: RECOMENDACIONES ── -->
+  <rect x="430" y="370" width="180" height="72" rx="8" fill="#1c1c3a" stroke="#16a085" stroke-width="2"/>
+  <text x="520" y="390" text-anchor="middle" fill="#76d7c4" font-size="10" font-style="italic">Panel RayGUI</text>
+  <text x="520" y="408" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Recomendaciones</text>
+  <text x="520" y="424" text-anchor="middle" fill="#6a6aaa" font-size="10">RF06 · Franjas al 100%</text>
+  <text x="520" y="438" text-anchor="middle" fill="#6a6aaa" font-size="10">RF07 · Sugerencias alt.</text>
+
+  <!-- ── Módulo 4: GRÁFICAS ── -->
+  <rect x="630" y="370" width="180" height="72" rx="8" fill="#1c1c3a" stroke="#e67e22" stroke-width="2"/>
+  <text x="720" y="390" text-anchor="middle" fill="#f0b27a" font-size="10" font-style="italic">Raylib DrawRectangle</text>
+  <text x="720" y="408" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Gráficas</text>
+  <text x="720" y="424" text-anchor="middle" fill="#6a6aaa" font-size="10">RF08 · Barras / líneas</text>
+  <text x="720" y="438" text-anchor="middle" fill="#6a6aaa" font-size="10">Ocupación por centro</text>
+
+  <!-- ── Módulo 5: SALIR ── -->
+  <rect x="820" y="370" width="100" height="72" rx="8" fill="#1c1c3a" stroke="#e74c3c" stroke-width="2"/>
+  <text x="870" y="395" text-anchor="middle" fill="#f1948a" font-size="10" font-style="italic">RayGUI button</text>
+  <text x="870" y="415" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Salir</text>
+  <text x="870" y="435" text-anchor="middle" fill="#6a6aaa" font-size="10">Liberar</text>
+  <text x="870" y="448" text-anchor="middle" fill="#6a6aaa" font-size="10">memoria</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       FILA 4: SUB-PANTALLAS (detalle de cada módulo)
+  ══════════════════════════════════════════════════════ -->
+
+  <!-- Bajadas a sub-pantallas -->
+  <line x1="100" y1="442" x2="100" y2="510" stroke="#8e44ad" stroke-width="1.4" marker-end="url(#pu)"/>
+  <line x1="310" y1="442" x2="310" y2="510" stroke="#2980b9" stroke-width="1.4" marker-end="url(#cy)"/>
+  <line x1="520" y1="442" x2="520" y2="510" stroke="#16a085" stroke-width="1.4" marker-end="url(#tl)"/>
+  <line x1="720" y1="442" x2="720" y2="510" stroke="#e67e22" stroke-width="1.4" marker-end="url(#or)"/>
+
+  <!-- ── Sub 1: Listados ── -->
+  <rect x="20" y="510" width="160" height="100" rx="8" fill="#120d1c" stroke="#8e44ad" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="100" y="530" text-anchor="middle" fill="#c39bd3" font-size="10" font-weight="bold">UI: Listados</text>
+  <text x="100" y="548" text-anchor="middle" fill="#aaa" font-size="10">· DropDown centro</text>
+  <text x="100" y="563" text-anchor="middle" fill="#aaa" font-size="10">· Tabla scrollable</text>
+  <text x="100" y="578" text-anchor="middle" fill="#aaa" font-size="10">  Actividad | Hora</text>
+  <text x="100" y="593" text-anchor="middle" fill="#aaa" font-size="10">  Plazas | Ocupación</text>
+  <text x="100" y="608" text-anchor="middle" fill="#aaa" font-size="10">· Botón Volver</text>
+
+  <!-- ── Sub 2: Estadísticas ── -->
+  <rect x="225" y="510" width="170" height="100" rx="8" fill="#0d1520" stroke="#2980b9" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="310" y="530" text-anchor="middle" fill="#7fb3d3" font-size="10" font-weight="bold">UI: Estadísticas</text>
+  <text x="310" y="548" text-anchor="middle" fill="#aaa" font-size="10">· Panel frecuencia/día</text>
+  <text x="310" y="563" text-anchor="middle" fill="#aaa" font-size="10">· Ranking popularidad</text>
+  <text x="310" y="578" text-anchor="middle" fill="#aaa" font-size="10">  por centro</text>
+  <text x="310" y="593" text-anchor="middle" fill="#aaa" font-size="10">· Tabla comparativa</text>
+  <text x="310" y="608" text-anchor="middle" fill="#aaa" font-size="10">· Botón Volver</text>
+
+  <!-- ── Sub 3: Recomendaciones ── -->
+  <rect x="430" y="510" width="180" height="100" rx="8" fill="#0d1e1a" stroke="#16a085" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="520" y="530" text-anchor="middle" fill="#76d7c4" font-size="10" font-weight="bold">UI: Recomendaciones</text>
+  <text x="520" y="548" text-anchor="middle" fill="#aaa" font-size="10">· Lista actividades llenas</text>
+  <text x="520" y="563" text-anchor="middle" fill="#aaa" font-size="10">· Selector actividad</text>
+  <text x="520" y="578" text-anchor="middle" fill="#aaa" font-size="10">· Panel alternativas</text>
+  <text x="520" y="593" text-anchor="middle" fill="#aaa" font-size="10">  misma hora/centro</text>
+  <text x="520" y="608" text-anchor="middle" fill="#aaa" font-size="10">· Botón Volver</text>
+
+  <!-- ── Sub 4: Gráficas ── -->
+  <rect x="630" y="510" width="180" height="100" rx="8" fill="#1e1406" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="720" y="530" text-anchor="middle" fill="#f0b27a" font-size="10" font-weight="bold">UI: Gráficas Raylib</text>
+  <text x="720" y="548" text-anchor="middle" fill="#aaa" font-size="10">· Barras de ocupación</text>
+  <text x="720" y="563" text-anchor="middle" fill="#aaa" font-size="10">  por centro/día</text>
+  <text x="720" y="578" text-anchor="middle" fill="#aaa" font-size="10">· Selector tipo gráfica</text>
+  <text x="720" y="593" text-anchor="middle" fill="#aaa" font-size="10">  (barras / líneas)</text>
+  <text x="720" y="608" text-anchor="middle" fill="#aaa" font-size="10">· Botón Volver</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       RETORNO AL MENÚ
+  ══════════════════════════════════════════════════════ -->
+  <line x1="100" y1="610" x2="100" y2="650" stroke="#888" stroke-width="1.2"/>
+  <line x1="310" y1="610" x2="310" y2="650" stroke="#888" stroke-width="1.2"/>
+  <line x1="520" y1="610" x2="520" y2="650" stroke="#888" stroke-width="1.2"/>
+  <line x1="720" y1="610" x2="720" y2="650" stroke="#888" stroke-width="1.2"/>
+  <line x1="100" y1="650" x2="720" y2="650" stroke="#888" stroke-width="1.2"/>
+  <line x1="410" y1="650" x2="410" y2="680" stroke="#888" stroke-width="1.5" marker-end="url(#gy)"/>
+
+  <rect x="290" y="680" width="240" height="36" rx="8" fill="#1c1c3a" stroke="#4a4aff" stroke-width="1.5"/>
+  <text x="410" y="703" text-anchor="middle" fill="#a0a8ff" font-size="12">Volver al Menú Principal</text>
+
+  <!-- Loop de vuelta al menú principal -->
+  <path d="M290,698 Q200,698 200,274 Q200,236 200,236" stroke="#4a4aff" stroke-width="1.4" fill="none" stroke-dasharray="6,3" marker-end="url(#bl)"/>
+
+  <!-- ══════════════════════════════════════════════════════
+       SALIDA
+  ══════════════════════════════════════════════════════ -->
+  <!-- Salir flecha abajo -->
+  <line x1="870" y1="442" x2="870" y2="510" stroke="#e74c3c" stroke-width="1.8"/>
+  <rect x="810" y="510" width="120" height="50" rx="8" fill="#1c1c3a" stroke="#e74c3c" stroke-width="1.8"/>
+  <text x="870" y="532" text-anchor="middle" fill="#f1948a" font-size="11" font-weight="bold">Liberar memoria</text>
+  <text x="870" y="549" text-anchor="middle" fill="#6a6aaa" font-size="10">free() · CloseWindow()</text>
+  <line x1="870" y1="560" x2="870" y2="600" stroke="#e74c3c" stroke-width="1.8" marker-end="url(#rd)"/>
+  <ellipse cx="870" cy="628" rx="60" ry="26" fill="#e74c3c" stroke="#c0392b" stroke-width="2"/>
+  <text x="870" y="633" text-anchor="middle" fill="white" font-size="13" font-weight="bold">FIN</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       LEYENDA
+  ══════════════════════════════════════════════════════ -->
+  <rect x="30" y="720" width="900" height="330" rx="12" fill="#1c1c3a" stroke="#4a4aff" stroke-width="1.5"/>
+  <text x="480" y="748" text-anchor="middle" fill="white" font-size="14" font-weight="bold">LEYENDA DE REQUISITOS</text>
+  <line x1="60" y1="758" x2="900" y2="758" stroke="#2a2a5a" stroke-width="1"/>
+
+  <!-- Columna izquierda — Mínimos -->
+  <text x="70" y="780" fill="#a0a8ff" font-size="12" font-weight="bold">Requisitos Mínimos (Obligatorios)</text>
+
+  <rect x="70"  y="792" width="12" height="12" rx="2" fill="#8e44ad"/>
+  <text x="88"  y="803" fill="#ccc" font-size="11">RF01 — Lectura de fichero CSV con datos del polideportivo</text>
+
+  <rect x="70"  y="812" width="12" height="12" rx="2" fill="#8e44ad"/>
+  <text x="88"  y="823" fill="#ccc" font-size="11">RF02 — Listado de actividades por centro deportivo</text>
+
+  <rect x="70"  y="832" width="12" height="12" rx="2" fill="#2980b9"/>
+  <text x="88"  y="843" fill="#ccc" font-size="11">RF03 — Frecuencia diaria de actividades ofertadas</text>
+
+  <rect x="70"  y="852" width="12" height="12" rx="2" fill="#2980b9"/>
+  <text x="88"  y="863" fill="#ccc" font-size="11">RF04 — Actividad más popular por centro deportivo</text>
+
+  <!-- Reglas C -->
+  <text x="70" y="890" fill="#a0a8ff" font-size="12" font-weight="bold">Reglas de Programación en C</text>
+  <text x="70" y="908" fill="#6a6aaa" font-size="10">· Funciones obligatorias  · Vectores de estructuras  · Memoria dinámica (malloc/free)</text>
+  <text x="70" y="924" fill="#6a6aaa" font-size="10">· Prohibido: variables globales · goto · break/continue reiterados</text>
+
+  <!-- Méritos extra -->
+  <text x="70" y="950" fill="#a0a8ff" font-size="12" font-weight="bold">Méritos Extra</text>
+  <rect x="70" y="960" width="12" height="12" rx="2" fill="#f39c12"/>
+  <text x="88" y="971" fill="#ccc" font-size="11">ME01 — Repositorio GitHub colaborativo  (+1.0 pt)</text>
+  <rect x="70" y="980" width="12" height="12" rx="2" fill="#f39c12"/>
+  <text x="88" y="991" fill="#ccc" font-size="11">ME02 — Guía de estilo homogénea en el código  (+0.5 pt)</text>
+  <rect x="70" y="1000" width="12" height="12" rx="2" fill="#f39c12"/>
+  <text x="88" y="1011" fill="#ccc" font-size="11">ME03 — Originalidad y creatividad en la algoritmia</text>
+
+  <!-- Columna derecha — Adicionales -->
+  <text x="520" y="780" fill="#a0a8ff" font-size="12" font-weight="bold">Requisitos Adicionales (Nota)</text>
+
+  <rect x="520" y="792" width="12" height="12" rx="2" fill="#4a4aff"/>
+  <text x="538" y="803" fill="#ccc" font-size="11">RF05 — Interfaz Gráfica con Raylib / RayGUI</text>
+
+  <rect x="520" y="812" width="12" height="12" rx="2" fill="#16a085"/>
+  <text x="538" y="823" fill="#ccc" font-size="11">RF06 — Análisis de franjas al 100% de ocupación</text>
+
+  <rect x="520" y="832" width="12" height="12" rx="2" fill="#16a085"/>
+  <text x="538" y="843" fill="#ccc" font-size="11">RF07 — Sugerencias de actividades alternativas</text>
+
+  <rect x="520" y="852" width="12" height="12" rx="2" fill="#e67e22"/>
+  <text x="538" y="863" fill="#ccc" font-size="11">RF08 — Gráficas de barras/líneas con Raylib</text>
+
+  <!-- Tipos de caja -->
+  <text x="520" y="900" fill="#a0a8ff" font-size="12" font-weight="bold">Tipos de pantalla</text>
+
+  <rect x="520" y="912" width="40" height="16" rx="4" fill="#1c1c3a" stroke="#4a4aff" stroke-width="1.5"/>
+  <text x="568" y="924" fill="#ccc" font-size="10">Ventana/Panel Raylib activo</text>
+
+  <rect x="520" y="934" width="40" height="16" rx="4" fill="#120d1c" stroke="#8e44ad" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="568" y="946" fill="#ccc" font-size="10">Sub-pantalla / Vista de detalle</text>
+
+  <polygon points="540,968 560,956 580,968 560,980" fill="#1c1c3a" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="588" y="972" fill="#ccc" font-size="10">Decisión / Validación</text>
+
+  <ellipse cx="548" cy="998" rx="28" ry="12" fill="#2ecc71" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="588" y="1002" fill="#ccc" font-size="10">Estado terminal (inicio/fin)</text>
+
+  <!-- Pie -->
+  <line x1="60" y1="1035" x2="900" y2="1035" stroke="#2a2a5a" stroke-width="1"/>
+  <text x="480" y="1055" text-anchor="middle" fill="#3a3a6a" font-size="10">Kian · Álvaro · Rodrigo — Grupo A109 · Informática UPM · 2026</text>
+
+  <!-- ══════════════════════════════════════════════════════
+       DEFINICIÓN DE MARCADORES
+  ══════════════════════════════════════════════════════ -->
+  <defs>
+    <marker id="bl" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#4a4aff"/>
+    </marker>
+    <marker id="gr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2ecc71"/>
+    </marker>
+    <marker id="rd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#e74c3c"/>
+    </marker>
+    <marker id="pu" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8e44ad"/>
+    </marker>
+    <marker id="cy" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#2980b9"/>
+    </marker>
+    <marker id="tl" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#16a085"/>
+    </marker>
+    <marker id="or" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#e67e22"/>
+    </marker>
+    <marker id="gy" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#888"/>
+    </marker>
+  </defs>
+
+</svg>
