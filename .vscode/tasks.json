@@ -1,0 +1,17 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compilar GTK4",
+            "type": "shell",
+            "command": "gcc ${file} -o ${fileDirname}/${fileBasenameNoExtension}.exe (-split (pkg-config --cflags --libs gtk4))",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
