@@ -1,6 +1,144 @@
+#include <gtk/gtk.h>
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+// Incluimos tu archivo de cabecera donde están las funciones de datos.c
+// #include "datos.h" 
 
-int main() {
-    printf("Hello, World!\n");
+// 1. Enum para las columnas (para no perdernos con los números)
+enum {
+    COL_ACTIVIDAD = 0,
+    COL_HORARIO,
+    COL_PLAZAS,
+    COL_OCUPACION,
+    NUM_COLUMNAS
+};
+
+// 2. ESTRUCTURA DE CONTEXTO (El secreto para cumplir RNF05 - Cero variables globales)
+// Aquí guardamos los punteros a todo lo que la interfaz y la lógica necesitan compartir.
+typedef struct {
+    Dataset *ds;
+    GtkComboBoxText *combo_centros;
+    GtkListStore *liststore_actividades;
+} AppContext;
+
+
+// =========================================================================
+// ZONA DE CALLBACKS (Funciones que responden a la interfaz)
+// =========================================================================
+
+// Cuando el usuario pulsa el botón "Consultar"
+void on_btn_buscar_clicked(GtkButton *button, gpointer user_data) {
+    // 1. Recuperamos nuestro contexto (el struct que pasamos sin usar globales)
+    AppContext *ctx = (AppContext *)user_data;
+
+    // 2. Obtener el texto seleccionado en el combo
+    gchar *centro_seleccionado = gtk_combo_box_text_get_active_text(ctx->combo_centros);
+    if (centro_seleccionado == NULL) {
+        printf("Por favor, seleccione un centro primero.\n");
+        return; // No se seleccionó nada
+    }
+
+    // 3. Llamar a la Lógica de Negocio (RF02)
+    int num_resultados = 0;
+    Actividad **lista = datos_obtenerActividadesPorCentro(ctx->ds, centro_seleccionado, &num_resultados);
+
+    // 4. Limpiar la tabla anterior
+    gtk_list_store_clear(ctx->liststore_actividades);
+
+    // 5. Rellenar el ListStore con los nuevos datos
+    if (lista != NULL && num_resultados > 0) {
+        GtkTreeIter iter;
+        for (int i = 0; i < num_resultados; i++) {
+            gtk_list_store_append(ctx->liststore_actividades, &iter); // Crea fila vacía
+            
+            // Llenamos la fila usando el enum para más claridad
+            gtk_list_store_set(ctx->liststore_actividades, &iter,
+                COL_ACTIVIDAD, lista[i]->actividad,
+                COL_HORARIO,   lista[i]->franjaHoraria,
+                COL_PLAZAS,    lista[i]->plazas_totales, // Asegúrate de usar el nombre exacto de tu struct
+                COL_OCUPACION, lista[i]->ocupacion,      // Asegúrate de usar el nombre exacto de tu struct
+                -1); // -1 indica el final de los argumentos
+        }
+        free(lista); // (RNF04) Liberamos el array de punteros temporal
+    }
+
+    // Liberamos la cadena que extrajimos del combo
+    g_free(centro_seleccionado); 
+}
+
+// Cuando el usuario cierra la ventana principal
+void on_window_main_destroy(GtkWidget *widget, gpointer user_data) {
+    AppContext *ctx = (AppContext *)user_data;
+    
+    // Liberamos toda la memoria de datos.c antes de salir (RNF04)
+    if (ctx->ds != NULL) {
+        datos_liberar(ctx->ds);
+        printf("Memoria del Dataset liberada correctamente.\n");
+    }
+    
+    free(ctx); // Liberamos el struct de contexto
+    gtk_main_quit(); // Le decimos a GTK que termine el programa
+}
+
+
+// =========================================================================
+// FUNCIÓN PRINCIPAL
+// =========================================================================
+
+int main(int argc, char *argv[]) {
+    GtkBuilder *builder;
+    GtkWidget *window;
+    GtkWidget *btn_buscar;
+
+    // 1. Inicializar GTK
+    gtk_init(&argc, &argv);
+
+    // 2. Crear y asignar memoria dinámica para nuestro contexto (RNF04)
+    AppContext *ctx = (AppContext *)malloc(sizeof(AppContext));
+    if (ctx == NULL) {
+        printf("Error: No se pudo reservar memoria para el contexto.\n");
+        return -1;
+    }
+
+    // 3. Cargar los datos (RF01)
+    // Suponemos una capacidad inicial de 256 como vimos en tu análisis
+    ctx->ds = datos_crear(256); 
+    int registros = datos_cargarCSV(ctx->ds, "datos.csv"); // Ajusta la ruta de tu CSV
+    printf("Se han cargado %d registros del CSV.\n", registros);
+
+    // 4. Cargar la Interfaz Gráfica desde Glade
+    builder = gtk_builder_new_from_file("interfaz.glade"); // Asegúrate de que este archivo exista
+
+    // 5. Vincular los objetos de Glade con los punteros de C
+    // IMPORTANTE: Los nombres ("window_main", etc.) deben coincidir con los IDs en Glade
+    window = GTK_WIDGET(gtk_builder_get_object(builder, "window_main")); 
+    btn_buscar = GTK_WIDGET(gtk_builder_get_object(builder, "btn_buscar"));
+    
+    ctx->combo_centros = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder, "combo_centros"));
+    ctx->liststore_actividades = GTK_LIST_STORE(gtk_builder_get_object(builder, "liststore_actividades"));
+
+    // 6. Rellenar el Combo Box al inicio con los centros únicos
+    int num_centros = 0;
+    char **lista_centros = datos_obtenerCentros(ctx->ds, &num_centros);
+    if (lista_centros != NULL) {
+        for (int i = 0; i < num_centros; i++) {
+            gtk_combo_box_text_append_text(ctx->combo_centros, lista_centros[i]);
+        }
+        datos_liberarCentros(lista_centros, num_centros); // Liberamos recursos
+    }
+
+    // 7. Conectar las señales (Eventos) de forma manual pasando el contexto
+    // Así evitamos la función automática de Glade que fuerza variables globales
+    g_signal_connect(window, "destroy", G_CALLBACK(on_window_main_destroy), ctx);
+    g_signal_connect(btn_buscar, "clicked", G_CALLBACK(on_btn_buscar_clicked), ctx);
+
+    // 8. Liberar el builder (ya construyó la UI, no lo necesitamos en RAM)
+    g_object_unref(builder);
+
+    // 9. Mostrar la ventana y ceder el control al bucle de GTK
+    gtk_widget_show_all(window);
+    gtk_main();
+
     return 0;
 }
