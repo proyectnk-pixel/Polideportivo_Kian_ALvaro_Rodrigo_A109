@@ -33,7 +33,8 @@ typedef struct {
     char  centro[MAX_NOMBRE];
     int   plazasTotales;
     int   plazasOcupadas;
-    int   libres    char  tipoActividad[MAX_NOMBRE];
+    int   libres; 
+    char  tipoActividad[MAX_NOMBRE];
 
     // Esto no viene en el CSV: lo monto yo al leerlo 
     char  franjaHoraria[MAX_FRANJA];
