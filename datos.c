@@ -301,3 +301,39 @@ int datos_contarPorMes(Dataset *ds, int mes) {
     return n;
 }
 
+/* Implementación de la búsqueda por centro */
+Actividad** datos_obtenerActividadesPorCentro(Dataset *ds, const char *centro_buscado, int *num_resultados) {
+    if (ds == NULL || centro_buscado == NULL || num_resultados == NULL) {
+        if (num_resultados != NULL) *num_resultados = 0;
+        return NULL;
+    }
+
+    *num_resultados = 0;
+    int contador = 0;
+
+    // Contar cuántas coinciden
+    for (int i = 0; i < ds->total; i++) {
+        if (strcmp(ds->actividades[i].centro, centro_buscado) == 0) {
+            contador++;
+        }
+    }
+
+    if (contador == 0) return NULL; 
+
+    // Reservar array de punteros
+    Actividad **resultados = malloc(contador * sizeof(Actividad *));
+    if (resultados == NULL) return NULL;
+
+    // Guardar las direcciones
+    int indice = 0;
+    for (int i = 0; i < ds->total; i++) {
+        if (strcmp(ds->actividades[i].centro, centro_buscado) == 0) {
+            resultados[indice] = &(ds->actividades[i]);
+            indice++;
+        }
+    }
+
+    *num_resultados = contador;
+    return resultados;
+}
+
