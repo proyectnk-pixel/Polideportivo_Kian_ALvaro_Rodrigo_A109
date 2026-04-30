@@ -92,4 +92,7 @@ int datos_contarPorDia(Dataset *ds, const char *dia);
 /* Cuántas actividades hay en un mes concreto */
 int datos_contarPorMes(Dataset *ds, int mes);
 
+/* Devuelve un array de punteros a las actividades de un centro concreto */
+Actividad** datos_obtenerActividadesPorCentro(Dataset *ds, const char *centro_buscado, int *num_resultados);
+
 #endif
