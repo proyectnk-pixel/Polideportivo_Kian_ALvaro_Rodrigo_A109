@@ -54,7 +54,8 @@ int iniciar_interfaz(Dataset *ds) {
     GtkBuilder *builder = gtk_builder_new();
     GError *error = NULL;
 
-    if (gtk_builder_add_from_file(builder, "interfaz.glade", &error) == 0) {
+    // Indicamos que entre en la carpeta ui y lea menu.glade
+    if (gtk_builder_add_from_file(builder, "ui/menu.glade", &error) == 0) {
         printf("Error fatal en Glade: %s\n", error->message);
         g_clear_error(&error);
         return 0; // Falla
