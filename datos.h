@@ -2,6 +2,15 @@
 #define DATOS_H
 
 
+// Indices datos en liststore_actividades
+enum {
+    COL_ACTIVIDAD = 0,
+    COL_HORARIO,       // Será 1 automáticamente
+    COL_PLAZAS,        // Será 2
+    COL_OCUPACION,     // Será 3
+    NUM_COLUMNAS       // Esto te dice cuántas columnas hay en total
+};
+
 #define MAX_NOMBRE  64
 #define MAX_DIA     16
 #define MAX_FRANJA  32
