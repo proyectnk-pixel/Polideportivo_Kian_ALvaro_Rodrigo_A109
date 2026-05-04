@@ -84,6 +84,8 @@
       <column type="gint"/>
       <!-- column-name Ocupación -->
       <column type="gfloat"/>
+      <!-- column-name Modalidad -->
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkWindow" id="ventana_principal">
@@ -152,6 +154,7 @@
             <property name="transition-type">crossfade</property>
             <child>
               <object class="GtkBox" id="panel_splash">
+                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
@@ -204,6 +207,7 @@
             </child>
             <child>
               <object class="GtkBox" id="panel_error">
+                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
@@ -257,6 +261,7 @@
             </child>
             <child>
               <object class="GtkBox" id="panel_menu">
+                <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
@@ -420,9 +425,10 @@ Seleccione centro
                       <object class="GtkComboBoxText" id="combo_centros">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="hexpand">True</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -435,10 +441,12 @@ Seleccione centro
                         <property name="receives-default">True</property>
                         <property name="valign">baseline</property>
                         <property name="image-position">right</property>
+                        <signal name="clicked" handler="on_btn_buscar_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
+                        <property name="pack-type">end</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -450,6 +458,21 @@ Seleccione centro
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSearchEntry" id="txt_filtro">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="primary-icon-name">edit-find-symbolic</property>
+                    <property name="primary-icon-activatable">False</property>
+                    <property name="primary-icon-sensitive">False</property>
+                    <signal name="search-changed" handler="on_txt_filtro_changed" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -477,6 +500,17 @@ Seleccione centro
                               <object class="GtkCellRendererText"/>
                               <attributes>
                                 <attribute name="text">0</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn">
+                            <property name="title" translatable="yes">Modalidad</property>
+                            <child>
+                              <object class="GtkCellRendererText"/>
+                              <attributes>
+                                <attribute name="text">4</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -523,7 +557,7 @@ Seleccione centro
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -538,7 +572,7 @@ Seleccione centro
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
               </object>
@@ -554,9 +588,6 @@ Seleccione centro
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
         <child>
           <object class="GtkLabel">

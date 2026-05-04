@@ -11,6 +11,8 @@ typedef struct {
     GtkLabel *lbl_estado_carga;
     GtkComboBoxText *combo_centros;
     GtkListStore *liststore_actividades;
+    GtkSearchEntry *txt_filtro;
+    GtkTreeModelFilter *filtro_actividades;
 } AppContext;
 
 // La única función que el main necesita conocer

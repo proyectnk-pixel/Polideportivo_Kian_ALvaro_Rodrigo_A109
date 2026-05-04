@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compilar GTK4",
+            "label": "Compilar Proyecto GTK3",
             "type": "shell",
-            "command": "gcc ${file} -o ${fileDirname}/${fileBasenameNoExtension}.exe (-split (pkg-config --cflags --libs gtk4))",
+            "command": "gcc src/*.c -o ${workspaceFolder}/polideportivo.exe (-split (pkg-config --cflags --libs gtk+-3.0 gmodule-export-2.0))",
             "problemMatcher": [
                 "$gcc"
             ],
