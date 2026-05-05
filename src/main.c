@@ -1,33 +1,43 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include "ventana.h"
+#include "botones.h"
 #include "datos.h"
-#include "interfaz.h" // Incluimos nuestro nuevo módulo
 
 int main(int argc, char *argv[]) {
-    // 1. Iniciamos las librerías gráficas
     gtk_init(&argc, &argv);
 
-    // 2. Cargamos el motor de datos
-    Dataset *mi_dataset = datos_crear(256); 
-    int registros = datos_cargarCSV(mi_dataset, "data/dataset.csv");
-
-    if (registros > 0) {
-        printf("Datos cargados correctamente: %d filas.\n", registros);
-    } else {
-        printf("Error: No se pudo cargar el CSV.\n");
+    GtkBuilder *builder = gtk_builder_new_from_file("ui/app.glade");
+    if (builder == NULL) {
+        printf("Error: no se pudo abrir el archivo glade\n");
+        return 1;
     }
 
-    // 3. Arrancamos la interfaz gráfica (le pasamos los datos)
-    if (iniciar_interfaz(mi_dataset)) {
-        // 4. Si la interfaz cargó bien, entramos al bucle infinito
-        gtk_main();
-    } else {
-        printf("El programa no pudo arrancar la interfaz visual.\n");
+    DatosVentana *v = ventana_crear();
+    if (v == NULL) {
+        printf("Error al reservar memoria\n");
+        g_object_unref(builder);
+        return 1;
     }
 
-    // 5. Cuando el bucle termina (usuario cierra ventana), limpiamos TODO
-    datos_liberar(mi_dataset);
-    printf("Memoria liberada. Fin del programa.\n");
+    ventana_inicializar(v, builder);
 
+    /* cargo el CSV antes de mostrar la ventana */
+    v->ds = datos_crear(CAP_INI);
+    if (v->ds == NULL || datos_cargarCSV(v->ds, "data/dataset.csv") <= 0) {
+        printf("Error al cargar el dataset\n");
+        gtk_label_set_text(v->lbl_estado_carga, "Error al cargar datos");
+        gtk_stack_set_visible_child_name(v->stack_principal, "error");
+    } else {
+        printf("Dataset cargado: %d registros\n", v->ds->total);
+        gtk_label_set_text(v->lbl_estado_carga, "Datos cargados correctamente");
+        gtk_stack_set_visible_child_name(v->stack_principal, "menu");
+    }
+
+    gtk_widget_show_all(GTK_WIDGET(v->ventana_principal));
+    gtk_main();
+
+    ventana_liberar(v);
+    g_object_unref(builder);
     return 0;
 }
