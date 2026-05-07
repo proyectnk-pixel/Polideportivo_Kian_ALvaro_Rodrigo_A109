@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     ventana_inicializar(v, builder);
 
     /* cargo el CSV antes de mostrar la ventana */
-    v->ds = datos_crear(CAP_INI);
+    v->ds = datos_crear(MAX_ACTIVIDADES);
     if (v->ds == NULL || datos_cargarCSV(v->ds, "data/dataset.csv") <= 0) {
         printf("Error al cargar el dataset\n");
         gtk_label_set_text(v->lbl_estado_carga, "Error al cargar datos");
