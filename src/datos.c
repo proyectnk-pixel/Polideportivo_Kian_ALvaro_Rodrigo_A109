@@ -183,37 +183,34 @@ void datos_liberar(Dataset *ds) {
     free(ds);
 }
 
-/* Función interna para obtener valores únicos de un campo */
-static char** _lista_unicos(Dataset *ds, int *num, int offset, int tam) {
+/* Devuelve un array con los centros que aparecen en el dataset, sin repetir.
+   El llamante es responsable de liberar la lista con datos_liberarLista. */
+char** datos_obtenerCentros(Dataset *ds, int *num) {
     *num = 0;
-    if (ds == NULL || ds->total == 0)
-        return NULL;
+    if (ds == NULL || ds->total == 0) return NULL;
 
-    /* como máximo habrá ds->total valores únicos */
+    /* reservo el peor caso: todos los centros son distintos */
     char **lista = malloc(sizeof(char*) * ds->total);
-    if (lista == NULL)
-        return NULL;
-
+    if (lista == NULL) return NULL;
     int n = 0;
 
     for (int i = 0; i < ds->total; i++) {
 
-        /* obtengo el campo usando aritmética de punteros */
-        const char *campo = (const char *)((char *)&ds->actividades[i] + offset);
-
+        // compruebo si este centro ya está en la lista 
         int repetido = 0;
         for (int j = 0; j < n; j++) {
-            if (strcmp(lista[j], campo) == 0) {
+            if (strcmp(lista[j], ds->actividades[i].centro) == 0) {
                 repetido = 1;
                 break;
             }
         }
 
+        /* si es nuevo, lo añado */
         if (!repetido) {
-            lista[n] = malloc(tam);
+            lista[n] = malloc(MAX_NOMBRE);
             if (lista[n] != NULL) {
-                strncpy(lista[n], campo, tam - 1);
-                lista[n][tam - 1] = '\0';
+                strncpy(lista[n], ds->actividades[i].centro, MAX_NOMBRE - 1);
+                lista[n][MAX_NOMBRE - 1] = '\0';
                 n++;
             }
         }
@@ -223,22 +220,42 @@ static char** _lista_unicos(Dataset *ds, int *num, int offset, int tam) {
     return lista;
 }
 
-/* Lista de centros sin repetir */
-char** datos_obtenerCentros(Dataset *ds, int *num) {
-    int offset = (int)((char *)&ds->actividades[0].centro - (char *)&ds->actividades[0]);
-    return _lista_unicos(ds, num, offset, MAX_NOMBRE);
-}
-
-/* Lista de actividades sin repetir */
+/* Igual que datos_obtenerCentros pero con el nombre de la actividad. */
 char** datos_obtenerActividades(Dataset *ds, int *num) {
-    int offset = (int)((char *)&ds->actividades[0].actividad - (char *)&ds->actividades[0]);
-    return _lista_unicos(ds, num, offset, MAX_NOMBRE);
+    *num = 0;
+    if (ds == NULL || ds->total == 0) return NULL;
+
+    char **lista = malloc(sizeof(char*) * ds->total);
+    if (lista == NULL) return NULL;
+    int n = 0;
+
+    for (int i = 0; i < ds->total; i++) {
+
+        int repetido = 0;
+        for (int j = 0; j < n; j++) {
+            if (strcmp(lista[j], ds->actividades[i].actividad) == 0) {
+                repetido = 1;
+                break;
+            }
+        }
+
+        if (!repetido) {
+            lista[n] = malloc(MAX_NOMBRE);
+            if (lista[n] != NULL) {
+                strncpy(lista[n], ds->actividades[i].actividad, MAX_NOMBRE - 1);
+                lista[n][MAX_NOMBRE - 1] = '\0';
+                n++;
+            }
+        }
+    }
+
+    *num = n;
+    return lista;
 }
 
-/* Libero una lista creada por _lista_unicos */
+// Libera un array de strings creado por datos_obtenerCentros o datos_obtenerActividades 
 void datos_liberarLista(char **lista, int n) {
-    if (lista == NULL)
-        return;
+    if (lista == NULL) return;
 
     for (int i = 0; i < n; i++)
         free(lista[i]);
