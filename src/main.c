@@ -7,7 +7,7 @@
 int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);
 
-    GtkBuilder *builder = gtk_builder_new_from_file("ui/app.glade");
+    GtkBuilder *builder = gtk_builder_new_from_file("ui/menu.glade");
     if (builder == NULL) {
         printf("Error: no se pudo abrir el archivo glade\n");
         return 1;
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     ventana_inicializar(v, builder);
 
     /* cargo el CSV antes de mostrar la ventana */
-    v->ds = datos_crear(MAX_ACTIVIDADES);
+    v->ds = datos_crear();
     if (v->ds == NULL || datos_cargarCSV(v->ds, "data/dataset.csv") <= 0) {
         printf("Error al cargar el dataset\n");
         gtk_label_set_text(v->lbl_estado_carga, "Error al cargar datos");

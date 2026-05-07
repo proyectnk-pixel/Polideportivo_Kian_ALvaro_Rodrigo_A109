@@ -60,7 +60,7 @@ char** datos_obtenerCentros(Dataset *ds, int *num);
 char** datos_obtenerActividades(Dataset *ds, int *num);
 
 /* Libera la lista creada por las funciones anteriores */
-void datos_liberarLista(char **lista, int n);/
+void datos_liberarLista(char **lista, int n);
 void datos_liberarCentros(char **lista, int n);
 
 /* estadisticas */
