@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* quito el salto de linea que deja fgets */
+// el fgets deja un \n al final y problemas al compara, y limpiamos tambien otros
 void quitar_espacios(char *s) {
     int j = (int)strlen(s) - 1;
     while (j >= 0 && (s[j] == '\n' || s[j] == '\r' || s[j] == ' ' || s[j] == '\t')) {
@@ -12,205 +12,164 @@ void quitar_espacios(char *s) {
     }
 }
 
-/* para que lunes y Lunes sean lo mismo */
+// sin esto "lunes" y "Lunes" no coincidian en el strcmp(comparar)
 void primera_mayuscula(char *s) {
-    if (s == NULL || s[0] == '\0')
-        return;
+    if (s == NULL || s[0] == '\0') return;
     if (s[0] >= 'a' && s[0] <= 'z')
         s[0] = s[0] - 'a' + 'A';
 }
 
-/* creo el dataset vacio */
 Dataset* datos_crear() {
-    Dataset *ds = malloc(sizeof(Dataset));
-    if (ds == NULL)
-        return NULL;
+    Dataset *d = malloc(sizeof(Dataset));
+    if (d == NULL) return NULL;
 
-    ds->actividades = malloc(sizeof(Actividad) * MAX_ACTIVIDADES);
-    if (ds->actividades == NULL) {
-        free(ds);
+    d->actividades = malloc(sizeof(Actividad) * MAX_ACTIVIDADES);
+    if (d->actividades == NULL) {
+        free(d);
         return NULL;
     }
-
-    ds->total = 0;
-    ds->capacidad = MAX_ACTIVIDADES;
-    return ds;
+    d->total = 0;
+    d->capacidad = MAX_ACTIVIDADES;
+    return d;
 }
 
-/* cargo el CSV linea a linea y relleno el dataset */
-int datos_cargarCSV(Dataset *ds, const char *ruta) {
-    if (ds == NULL)
-        return 0;
+int datos_cargarCSV(Dataset *d, const char *ruta) {
+    if (d == NULL) return 0;
 
     FILE *f = fopen(ruta, "r");
-    if (f == NULL)
-        return 0;
+    if (f == NULL) return 0;
 
-    char linea[512];
-    char copia[512];
+    char buf[512], cp[512];
     char *tok;
 
-    /* salto la cabecera */
-    fgets(linea, sizeof(linea), f);
+    fgets(buf, sizeof(buf), f); // cabecera
 
-    while (fgets(linea, sizeof(linea), f) != NULL) {
+    while (fgets(buf, sizeof(buf), f) != NULL) {
 
-        if (ds->total >= MAX_ACTIVIDADES)
-            break;
+        if (d->total >= MAX_ACTIVIDADES) break;
 
-        /* strtok destruye el string asi que uso una copia */
-        strncpy(copia, linea, sizeof(copia) - 1);
-        copia[sizeof(copia) - 1] = '\0';
+        strncpy(cp, buf, sizeof(cp) - 1);
+        cp[sizeof(cp) - 1] = '\0';
 
-        Actividad *a = &ds->actividades[ds->total];
+        Actividad *a = &d->actividades[d->total];
 
-        tok = strtok(copia, " ");
-        if (tok == NULL) continue;
+        tok = strtok(cp, " ");  if (tok == NULL) continue;
         a->anio = atoi(tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         a->mes = atoi(tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         a->dia = atoi(tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->diaSemana, tok);
         quitar_espacios(a->diaSemana);
         primera_mayuscula(a->diaSemana);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->horaInicio, tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->horaFin, tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->actividad, tok);
         quitar_espacios(a->actividad);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->modalidad, tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->centro, tok);
         quitar_espacios(a->centro);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         a->plazasTotales = atoi(tok);
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         a->plazasOcupadas = atoi(tok);
 
         a->libres = a->plazasTotales - a->plazasOcupadas;
 
-        tok = strtok(NULL, " ");
-        if (tok == NULL) continue;
+        tok = strtok(NULL, " ");  if (tok == NULL) continue;
         strcpy(a->tipoActividad, tok);
 
-        /* junto hora inicio y fin para la tabla */
+        // junto las horas para mostrarlas juntas en la tabla
         strcpy(a->franjaHoraria, a->horaInicio);
         strcat(a->franjaHoraria, "-");
         strcat(a->franjaHoraria, a->horaFin);
 
-        /* porcentaje de ocupacion, evito dividir por cero */
         if (a->plazasTotales > 0)
             a->ocupacion = (float)a->plazasOcupadas / a->plazasTotales;
         else
             a->ocupacion = 0.0f;
 
-        ds->total++;
+        d->total++;
     }
 
     fclose(f);
-    return ds->total;
+    return d->total;
 }
 
-/* libero la memoria del dataset */
-void datos_liberar(Dataset *ds) {
-    if (ds == NULL)
-        return;
-    free(ds->actividades);
-    free(ds);
+void datos_liberar(Dataset *d) {
+    if (d == NULL) return;
+    free(d->actividades);
+    free(d);
 }
 
-/* devuelve los centros sin repetir */
-char** datos_obtenerCentros(Dataset *ds, int *num) {
+char** datos_obtenerCentros(Dataset *d, int *num) {
     *num = 0;
-    if (ds == NULL || ds->total == 0) return NULL;
+    if (d == NULL || d->total == 0) return NULL;
 
-    /* en el peor caso todos los centros son distintos */
-    char **lista = malloc(sizeof(char*) * ds->total);
-    if (lista == NULL) return NULL;
-    int n = 0;
+    char **res = malloc(sizeof(char*) * d->total);
+    if (res == NULL) return NULL;
 
-    for (int i = 0; i < ds->total; i++) {
-        /* miro si este centro ya lo tengo guardado */
-        int repetido = 0;
-        for (int j = 0; j < n; j++) {
-            if (strcmp(lista[j], ds->actividades[i].centro) == 0) {
-                repetido = 1;
-                break;
+    int n = 0, i, j, rep;
+    for (i = 0; i < d->total; i++) {
+        rep = 0;
+        for (j = 0; j < n; j++) {
+            if (strcmp(res[j], d->actividades[i].centro) == 0) {
+                rep = 1; break;
             }
         }
-        if (!repetido) {
-            lista[n] = malloc(MAX_NOMBRE);
-            if (lista[n] != NULL) {
-                strcpy(lista[n], ds->actividades[i].centro);
-                n++;
-            }
+        if (!rep) {
+            res[n] = malloc(MAX_NOMBRE);
+            if (res[n] != NULL)
+                strcpy(res[n++], d->actividades[i].centro);
         }
     }
-
     *num = n;
-    return lista;
+    return res;
 }
 
-/* igual pero con el nombre de la actividad */
-char** datos_obtenerActividades(Dataset *ds, int *num) {
+// esta es igual a la de centros pero mirando el campo actividad
+char** datos_obtenerActividades(Dataset *d, int *num) {
     *num = 0;
-    if (ds == NULL || ds->total == 0) return NULL;
+    if (d == NULL || d->total == 0) return NULL;
 
-    char **lista = malloc(sizeof(char*) * ds->total);
-    if (lista == NULL) return NULL;
-    int n = 0;
+    int n = 0, i, j, rep;
+    char **res = malloc(sizeof(char*) * d->total);
+    if (res == NULL) return NULL;
 
-    for (int i = 0; i < ds->total; i++) {
-        int repetido = 0;
-        for (int j = 0; j < n; j++) {
-            if (strcmp(lista[j], ds->actividades[i].actividad) == 0) {
-                repetido = 1;
-                break;
-            }
+    for (i = 0; i < d->total; i++) {
+        rep = 0;
+        for (j = 0; j < n; j++) {
+            if (strcmp(res[j], d->actividades[i].actividad) == 0) { rep = 1; break; }
         }
-        if (!repetido) {
-            lista[n] = malloc(MAX_NOMBRE);
-            if (lista[n] != NULL) {
-                strcpy(lista[n], ds->actividades[i].actividad);
-                n++;
-            }
+        if (!rep) {
+            res[n] = malloc(MAX_NOMBRE);
+            if (res[n] != NULL) strcpy(res[n++], d->actividades[i].actividad);
         }
     }
-
     *num = n;
-    return lista;
+    return res;
 }
 
-/* libera el array de strings */
 void datos_liberarLista(char **lista, int n) {
     if (lista == NULL) return;
-    for (int i = 0; i < n; i++)
-        free(lista[i]);
+    int i;
+    for (i = 0; i < n; i++) free(lista[i]);
     free(lista);
 }
 
@@ -218,84 +177,35 @@ void datos_liberarCentros(char **lista, int n) {
     datos_liberarLista(lista, n);
 }
 
-/* ocupacion media de todas las actividades */
-float datos_ocupacionMedia(Dataset *ds) {
-    if (ds == NULL || ds->total == 0)
-        return 0.0f;
-
+float datos_ocupacionMedia(Dataset *d) {
+    if (d == NULL || d->total == 0) return 0.0f;
     float suma = 0.0f;
-    for (int i = 0; i < ds->total; i++)
-        suma += ds->actividades[i].ocupacion;
-
-    return suma / ds->total;
+    int i;
+    for (i = 0; i < d->total; i++)
+        suma += d->actividades[i].ocupacion;
+    return suma / d->total;
 }
 
-/* cuantas plazas libres hay en total */
-int datos_totalLibres(Dataset *ds) {
-    if (ds == NULL) return 0;
-
-    int suma = 0;
-    for (int i = 0; i < ds->total; i++)
-        suma += ds->actividades[i].libres;
-
+int datos_totalLibres(Dataset *d) {
+    if (d == NULL) return 0;
+    int suma = 0, i;
+    for (i = 0; i < d->total; i++)
+        suma += d->actividades[i].libres;
     return suma;
 }
 
-/* cuantas actividades hay un dia concreto */
-int datos_contarPorDia(Dataset *ds, const char *dia) {
-    if (ds == NULL || dia == NULL) return 0;
-
-    int n = 0;
-    for (int i = 0; i < ds->total; i++)
-        if (strcmp(ds->actividades[i].diaSemana, dia) == 0)
-            n++;
-
-    return n;
+int datos_contarPorDia(Dataset *d, const char *dia) {
+    if (d == NULL || dia == NULL) return 0;
+    int cnt = 0, i;
+    for (i = 0; i < d->total; i++)
+        if (strcmp(d->actividades[i].diaSemana, dia) == 0) cnt++;
+    return cnt;
 }
 
-/* cuantas actividades hay en un mes */
-int datos_contarPorMes(Dataset *ds, int mes) {
-    if (ds == NULL) return 0;
-
-    int n = 0;
-    for (int i = 0; i < ds->total; i++)
-        if (ds->actividades[i].mes == mes)
-            n++;
-
-    return n;
-}
-/* Implementación de la búsqueda por centro */
-Actividad** datos_obtenerActividadesPorCentro(Dataset *ds, const char *centro_buscado, int *num_resultados) {
-    if (ds == NULL || centro_buscado == NULL || num_resultados == NULL) {
-        if (num_resultados != NULL) *num_resultados = 0;
-        return NULL;
-    }
-
-    *num_resultados = 0;
-    int contador = 0;
-
-    // Contar cuántas coinciden
-    for (int i = 0; i < ds->total; i++) {
-        if (strcmp(ds->actividades[i].centro, centro_buscado) == 0) {
-            contador++;
-        }
-    }
-
-    if (contador == 0) return NULL; 
-
-    // Reservar array de punteros
-    Actividad **resultados = malloc(contador * sizeof(Actividad *));
-    if (resultados == NULL) return NULL;
-
-    // Guardar las direcciones
-    int indice = 0;
-    for (int i = 0; i < ds->total; i++) {
-        if (strcmp(ds->actividades[i].centro, centro_buscado) == 0) {
-            resultados[indice] = &(ds->actividades[i]);
-            indice++;
-        }
-    }
-
-    *num_resultados = contador;
-    return resultados;
+int datos_contarPorMes(Dataset *d, int mes) {
+    if (d == NULL) return 0;
+    int cnt = 0, i;
+    for (i = 0; i < d->total; i++)
+        if (d->actividades[i].mes == mes) cnt++;
+    return cnt;
 }
