@@ -3,26 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Limpio espacios y saltos que deja fgets.
-   Lo hago aquí para no repetirlo en cada campo. */
+/* Limpio saltos de linea y espacios que deja fgets */
 static void quitar_espacios(char *s) {
-    int i = 0, j;
-
-  
-    while (s[i] == ' ' || s[i] == '\t')
-        i++;
-
-    /* si había basura delante, muevo todo hacia la izquierda */
-    if (i > 0)
-        memmove(s, s + i, strlen(s) - i + 1);
-
-    /* ahora limpio por el final */
-    j = (int)strlen(s) - 1;
+    int j = (int)strlen(s) - 1;
     while (j >= 0 && (s[j] == '\n' || s[j] == '\r' || s[j] == ' ' || s[j] == '\t'))
         s[j--] = '\0';
 }
 
-/* Para evitar que "lunes" y "Lunes" se consideren distintos */
+// Para evitar que mayusculas y minusculas los interprete distinto
 static void primera_mayuscula(char *s) {
     if (s == NULL || s[0] == '\0')
         return;
@@ -31,8 +19,7 @@ static void primera_mayuscula(char *s) {
         s[0] = s[0] - 'a' + 'A';
 }
 
-/* Si el array se queda corto, lo duplico.
-   Mucho más eficiente que ampliarlo de poco en poco. */
+/* Si el array se queda corto, lo duplico. */
 static int hacer_mas_grande(Dataset *ds) {
     int nueva_cap = ds->capacidad * 2;
     Actividad *aux = realloc(ds->actividades, sizeof(Actividad) * nueva_cap);
@@ -63,15 +50,13 @@ Dataset* datos_crear(int cap) {
     return ds;
 }
 
-/* Cargo el CSV línea a línea y voy rellenando el dataset */
+// Cargo el CSV línea a línea
 int datos_cargarCSV(Dataset *ds, const char *ruta) {
     if (ds == NULL)
         return 0;
-
     FILE *f = fopen(ruta, "r");
     if (f == NULL)
         return 0;
-
     char linea[512];
     char copia[512];
     char *tok;
