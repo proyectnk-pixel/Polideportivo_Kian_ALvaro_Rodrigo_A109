@@ -90,7 +90,8 @@ void on_btn_buscar_clicked(GtkButton *btn, gpointer datos) {
     g_free(centro);
 }
 
-/* filtra la tabla segun lo que escribe el usuario en el buscador */
+// filtra la tabla 
+//segun lo que escribe el usuario en el buscador 
 void on_txt_filtro_changed(GtkSearchEntry *entry, gpointer datos) {
     DatosVentana *v = (DatosVentana *)datos;
     (void)entry;
