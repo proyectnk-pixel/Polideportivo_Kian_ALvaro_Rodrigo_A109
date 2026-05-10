@@ -4,13 +4,13 @@
 #include "estadisticas.h"
 #include <stdio.h>
 #include <string.h>
-
+// Cierra la aplicación
 void on_btn_salir_clicked(GtkButton *btn, gpointer datos) {
     (void)btn;
     (void)datos;
     gtk_main_quit();
 }
-
+// Carga los centros en el combo y navega al panel listados
 void on_btn_ir_listados_clicked(GtkButton *btn, gpointer datos) {
     DatosVentana *v = (DatosVentana *)datos;
     int num;
@@ -31,33 +31,33 @@ void on_btn_ir_listados_clicked(GtkButton *btn, gpointer datos) {
 
     gtk_stack_set_visible_child_name(v->stack_principal, "listados");
 }
-
+// Calcula el ranking y navega al panel estadísticas
 void on_btn_ir_estadisticas_clicked(GtkButton *btn, gpointer datos) {
     DatosVentana *v = (DatosVentana *)datos;
     (void)btn;
     rellenar_ranking_centros(v);
     gtk_stack_set_visible_child_name(v->stack_principal, "estadisticas");
 }
-
+// Panel de recomendaciones no implementado, solo un mensaje no se pudo hacer lo otro
 void on_btn_ir_recomendaciones_clicked(GtkButton *btn, gpointer datos) {
     (void)btn;
     (void)datos;
     printf("proximamente recomendaciones\n");
 }
-
+// Navega al panel gráficas y activa el dibujo
 void on_btn_ir_graficas_clicked(GtkButton *btn, gpointer datos) {
     DatosVentana *v = (DatosVentana *)datos;
     (void)btn;
     gtk_stack_set_visible_child_name(v->stack_principal, "graficas");
     gtk_widget_queue_draw(GTK_WIDGET(v->drawing_grafica));
 }
-
+// Vuelve al menu principal desde cualquier panel
 void on_btn_volver_menu_clicked(GtkButton *btn, gpointer datos) {
     DatosVentana *v = (DatosVentana *)datos;
     (void)btn;
     gtk_stack_set_visible_child_name(v->stack_principal, "menu");
 }
-
+// Rellena la tabla con las actividades del centro seleccionado
 void on_btn_buscar_clicked(GtkButton *btn, gpointer datos) {
     DatosVentana *v = (DatosVentana *)datos;
     (void)btn;
