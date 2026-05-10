@@ -38,7 +38,7 @@ void ventana_inicializar(DatosVentana *v, GtkBuilder *b) {
     v->txt_filtro = GTK_SEARCH_ENTRY(gtk_builder_get_object(b, "txt_filtro"));
     v->drawing_grafica = GTK_DRAWING_AREA(gtk_builder_get_object(b, "drawing_grafica"));
 
-    /* conecto los botones del menu principal */
+    // conecto los botones del menu principal 
     g_signal_connect(v->ventana_principal, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(v->btn_ir_listados, "clicked", G_CALLBACK(on_btn_ir_listados_clicked), v);
     g_signal_connect(v->btn_ir_estadisticas, "clicked", G_CALLBACK(on_btn_ir_estadisticas_clicked), v);
