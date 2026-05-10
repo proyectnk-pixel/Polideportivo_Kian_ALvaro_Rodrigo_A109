@@ -49,7 +49,7 @@ void rellenar_ranking_centros(DatosVentana *v) {
         cont++;
     }
 
-    // ordeno de mayor a menor con burbuja
+    // ordeno de mayor a menor 
     for (i = 0; i < cont - 1; i++) {
         for (j = 0; j < cont - 1 - i; j++) {
             if (orden_medias[j] < orden_medias[j + 1]) {
@@ -64,12 +64,12 @@ void rellenar_ranking_centros(DatosVentana *v) {
         }
     }
 
-    // meto el ranking en el liststore de estadisticas
+    // meto el ranking en el liststore de estadísticas
     gtk_list_store_clear(v->liststore_ranking);
 
     GtkTreeIter fila;
     char pct[10];
-
+    // solo los 10 primeros por si hay muchos centros
     for (k = 0; k < cont; k++) {
         sprintf(pct, "%.0f%%", orden_medias[k] * 100);
         gtk_list_store_append(v->liststore_ranking, &fila);
