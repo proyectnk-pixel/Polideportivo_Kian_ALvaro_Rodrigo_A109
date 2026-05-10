@@ -7,7 +7,7 @@
 #define MAX_HORA        12
 #define MAX_ACTIVIDADES 5000
 
-/* cada linea del CSV es una actividad */
+// cada linea del CSV es una actividad 
 typedef struct {
     int   anio;
     int   mes;
@@ -26,7 +26,7 @@ typedef struct {
     float ocupacion;
 } Actividad;
 
-/* aqui guardo todas las actividades */
+// guardo todas las actividades 
 typedef struct {
     Actividad *actividades;
     int total;
