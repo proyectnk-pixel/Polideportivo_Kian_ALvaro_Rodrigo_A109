@@ -29,7 +29,7 @@ void rellenar_ranking_centros(DatosVentana *v) {
 
     cont = 0;
 
-    // calculo la media de cada centro
+    // calculo media de cada centro
     for (i = 0; i < num && i < 100; i++) {
         float suma = 0.0f;
         int cuenta = 0;
