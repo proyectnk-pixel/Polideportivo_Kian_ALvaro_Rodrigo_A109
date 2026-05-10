@@ -70,7 +70,7 @@ void dibujar_barras_actividades(cairo_t *cr, int ancho, int alto, DatosVentana *
     y = margen_top;
 
     for (i = 0; i < v->ds->total; i++) {
-        // solo las actividades del centro seleccionado
+        //  actividades del centro seleccionado
         if (strcmp(v->ds->actividades[i].centro, centro) != 0) {
             continue;
         }
@@ -78,18 +78,18 @@ void dibujar_barras_actividades(cairo_t *cr, int ancho, int alto, DatosVentana *
         strncpy(etiqueta, v->ds->actividades[i].actividad, 19);
         etiqueta[19] = '\0';
 
-        // nombre a la izquierda
+        // nombre 
         cairo_set_source_rgb(cr, 0, 0, 0);
         cairo_move_to(cr, 5, y + alto_barra - 6);
         cairo_show_text(cr, etiqueta);
 
-        // barra horizontal azul
+        // barra horizontal 
         w = (int)(v->ds->actividades[i].ocupacion * ancho_max);
         cairo_set_source_rgb(cr, 0.2, 0.4, 0.8);
         cairo_rectangle(cr, margen_izq, y, w, alto_barra);
         cairo_fill(cr);
 
-        // porcentaje a la derecha
+        // porcentaje 
         sprintf(pct, "%.0f%%", v->ds->actividades[i].ocupacion * 100);
         cairo_set_source_rgb(cr, 0, 0, 0);
         cairo_move_to(cr, margen_izq + w + 4, y + alto_barra - 6);
