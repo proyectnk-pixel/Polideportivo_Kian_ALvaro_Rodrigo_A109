@@ -2,78 +2,6 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkAssistant">
-    <property name="can-focus">False</property>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="label" translatable="yes">Página de introducción</property>
-      </object>
-      <packing>
-        <property name="page-type">intro</property>
-        <property name="has-padding">False</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="label" translatable="yes">Página de contenido</property>
-      </object>
-      <packing>
-        <property name="has-padding">False</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="label" translatable="yes">Página de confirmación</property>
-      </object>
-      <packing>
-        <property name="page-type">confirm</property>
-        <property name="has-padding">False</property>
-      </packing>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkBox">
-        <property name="can-focus">False</property>
-        <property name="halign">end</property>
-        <property name="margin-start">6</property>
-        <property name="margin-end">6</property>
-        <property name="margin-top">6</property>
-        <property name="margin-bottom">6</property>
-        <property name="spacing">6</property>
-      </object>
-      <packing>
-        <property name="has-padding">False</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkColorChooserDialog">
-    <property name="can-focus">False</property>
-    <property name="type-hint">dialog</property>
-    <property name="rgba">rgb(255,255,255)</property>
-    <child internal-child="vbox">
-      <object class="GtkBox">
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can-focus">False</property>
-            <property name="layout-style">end</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkListStore" id="liststore_actividades">
     <columns>
       <!-- column-name Actividad -->
@@ -82,9 +10,17 @@
       <column type="gchararray"/>
       <!-- column-name Plazas -->
       <column type="gint"/>
-      <!-- column-name Ocupación -->
-      <column type="gfloat"/>
+      <!-- column-name Ocupacion -->
+      <column type="gchararray"/>
       <!-- column-name Modalidad -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore_ranking">
+    <columns>
+      <!-- column-name Centro -->
+      <column type="gchararray"/>
+      <!-- column-name Ocupacion -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -111,7 +47,7 @@
               <object class="GtkLabel" id="lbl_titulo">
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label">POLIDEPORTIVO MADRID </property>
+                <property name="label">POLIDEPORTIVO MADRID</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -203,6 +139,7 @@
               </object>
               <packing>
                 <property name="name">splash</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -285,7 +222,6 @@
                 <child>
                   <object class="GtkButton" id="btn_ir_listados">
                     <property name="label">Listados</property>
-                    <property name="use-action-appearance">True</property>
                     <property name="width-request">320</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
@@ -301,7 +237,6 @@
                 <child>
                   <object class="GtkButton" id="btn_ir_estadisticas">
                     <property name="label">Estadisticas</property>
-                    <property name="use-action-appearance">True</property>
                     <property name="width-request">320</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
@@ -317,7 +252,6 @@
                 <child>
                   <object class="GtkButton" id="btn_ir_recomendaciones">
                     <property name="label">Recomendaciones</property>
-                    <property name="use-action-appearance">True</property>
                     <property name="width-request">320</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
@@ -333,7 +267,6 @@
                 <child>
                   <object class="GtkButton" id="btn_ir_graficas">
                     <property name="label">Graficas de ocupacion</property>
-                    <property name="use-action-appearance">True</property>
                     <property name="width-request">320</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
@@ -349,7 +282,6 @@
                 <child>
                   <object class="GtkButton" id="btn_salir_menu">
                     <property name="label">Salir</property>
-                    <property name="use-action-appearance">True</property>
                     <property name="width-request">320</property>
                     <property name="can-focus">False</property>
                     <property name="receives-default">False</property>
@@ -381,9 +313,7 @@
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">
-Consulta de Actividades por Centro
-</property>
+                    <property name="label">Consulta de Actividades por Centro</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -411,9 +341,7 @@ Consulta de Actividades por Centro
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">
-Seleccione centro
-</property>
+                        <property name="label">Seleccione centro</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -435,12 +363,11 @@ Seleccione centro
                     </child>
                     <child>
                       <object class="GtkButton" id="btn_buscar">
-                        <property name="label" translatable="yes">Consultar</property>
+                        <property name="label">Consultar</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
                         <property name="valign">baseline</property>
-                        <property name="image-position">right</property>
                         <signal name="clicked" handler="on_btn_buscar_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -449,9 +376,6 @@ Seleccione centro
                         <property name="pack-type">end</property>
                         <property name="position">2</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>
@@ -495,7 +419,7 @@ Seleccione centro
                         <child>
                           <object class="GtkTreeViewColumn">
                             <property name="sizing">autosize</property>
-                            <property name="title" translatable="yes">Actividad</property>
+                            <property name="title">Actividad</property>
                             <child>
                               <object class="GtkCellRendererText"/>
                               <attributes>
@@ -506,19 +430,8 @@ Seleccione centro
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn">
-                            <property name="title" translatable="yes">Modalidad</property>
-                            <child>
-                              <object class="GtkCellRendererText"/>
-                              <attributes>
-                                <attribute name="text">4</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkTreeViewColumn">
                             <property name="sizing">autosize</property>
-                            <property name="title" translatable="yes">Horario</property>
+                            <property name="title">Horario</property>
                             <child>
                               <object class="GtkCellRendererText"/>
                               <attributes>
@@ -530,7 +443,7 @@ Seleccione centro
                         <child>
                           <object class="GtkTreeViewColumn">
                             <property name="sizing">autosize</property>
-                            <property name="title" translatable="yes">Plazas</property>
+                            <property name="title">Plazas</property>
                             <child>
                               <object class="GtkCellRendererText"/>
                               <attributes>
@@ -542,7 +455,7 @@ Seleccione centro
                         <child>
                           <object class="GtkTreeViewColumn">
                             <property name="sizing">autosize</property>
-                            <property name="title" translatable="yes">Ocupación</property>
+                            <property name="title">Ocupacion</property>
                             <child>
                               <object class="GtkCellRendererText"/>
                               <attributes>
@@ -551,22 +464,33 @@ Seleccione centro
                             </child>
                           </object>
                         </child>
+                        <child>
+                          <object class="GtkTreeViewColumn">
+                            <property name="sizing">autosize</property>
+                            <property name="title">Modalidad</property>
+                            <child>
+                              <object class="GtkCellRendererText"/>
+                              <attributes>
+                                <attribute name="text">4</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkButton" id="btn_volver_menu">
-                    <property name="label" translatable="yes">Volver</property>
+                    <property name="label">Volver</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <property name="image-position">right</property>
                     <signal name="clicked" handler="on_btn_volver_menu_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -578,13 +502,179 @@ Seleccione centro
               </object>
               <packing>
                 <property name="name">listados</property>
-                <property name="title" translatable="yes">page0</property>
                 <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box_estadisticas">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-top">10</property>
+                <property name="margin-bottom">10</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label">Ranking de Centros por Ocupacion</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="margin-top">6</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="shadow-type">in</property>
+                    <child>
+                      <object class="GtkTreeView" id="tree_ranking">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="model">liststore_ranking</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection"/>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn">
+                            <property name="sizing">autosize</property>
+                            <property name="title">Centro</property>
+                            <child>
+                              <object class="GtkCellRendererText"/>
+                              <attributes>
+                                <attribute name="text">0</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn">
+                            <property name="sizing">autosize</property>
+                            <property name="title">Ocupacion media</property>
+                            <child>
+                              <object class="GtkCellRendererText"/>
+                              <attributes>
+                                <attribute name="text">1</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btn_volver_menu_estadisticas">
+                    <property name="label">Volver</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_btn_volver_menu_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">estadisticas</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box_graficas">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-start">10</property>
+                <property name="margin-end">10</property>
+                <property name="margin-top">10</property>
+                <property name="margin-bottom">10</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label">Graficas de Ocupacion por Centro</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkDrawingArea" id="drawing_grafica">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <signal name="draw" handler="on_area_grafica_draw" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btn_volver_menu_graficas">
+                    <property name="label">Volver</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_btn_volver_menu_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">graficas</property>
+                <property name="position">5</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
@@ -593,7 +683,7 @@ Seleccione centro
           <object class="GtkLabel">
             <property name="can-focus">False</property>
             <property name="halign">start</property>
-            <property name="label">DAT0S 2025-2026</property>
+            <property name="label">DATOS 2025-2026</property>
           </object>
           <packing>
             <property name="expand">False</property>
