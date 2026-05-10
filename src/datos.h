@@ -7,7 +7,7 @@
 #define MAX_HORA        12
 #define MAX_ACTIVIDADES 5000
 
-// cada actividad y su estructura
+// Cada línea del CSV es una actividad
 typedef struct {
     int   anio;
     int   mes;
@@ -22,15 +22,15 @@ typedef struct {
     int   plazasOcupadas;
     int   libres;
     char  tipoActividad[MAX_NOMBRE];
-    char  franjaHoraria[MAX_FRANJA];
-    float ocupacion;
+    char  franjaHoraria[MAX_FRANJA];// horaInicio - horaFin
+    float ocupacion; // plazasOcupadas / plazasTotales
 } Actividad;
 
 // guardo todas las actividades 
 typedef struct {
     Actividad *actividades;
-    int total;
-    int capacidad;
+    int total;    // cuantas actividades hay ahora
+    int capacidad;// tamaño maximo del array
 } Dataset;
 
 Dataset* datos_crear(void);
