@@ -4,6 +4,7 @@
 #include "datos.h"
 #include <stdlib.h>
 
+// Reserva memoria para el struct DatosVentana
 DatosVentana* ventana_crear(void) {
     DatosVentana *v = malloc(sizeof(DatosVentana));
     if (v == NULL) {
@@ -12,7 +13,7 @@ DatosVentana* ventana_crear(void) {
     v->ds = NULL;
     return v;
 }
-
+// Extrae los widgets del glade y conecta cada botón con su callback
 void ventana_inicializar(DatosVentana *v, GtkBuilder *b) {
     GtkButton *btn_buscar;
     GtkButton *btn_volver;
@@ -38,7 +39,7 @@ void ventana_inicializar(DatosVentana *v, GtkBuilder *b) {
     v->txt_filtro = GTK_SEARCH_ENTRY(gtk_builder_get_object(b, "txt_filtro"));
     v->drawing_grafica = GTK_DRAWING_AREA(gtk_builder_get_object(b, "drawing_grafica"));
 
-    /* conecto los botones del menu principal */
+    // conecto los botones del menú principal 
     g_signal_connect(v->ventana_principal, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(v->btn_ir_listados, "clicked", G_CALLBACK(on_btn_ir_listados_clicked), v);
     g_signal_connect(v->btn_ir_estadisticas, "clicked", G_CALLBACK(on_btn_ir_estadisticas_clicked), v);
@@ -53,7 +54,7 @@ void ventana_inicializar(DatosVentana *v, GtkBuilder *b) {
     g_signal_connect(btn_volver, "clicked", G_CALLBACK(on_btn_volver_menu_clicked), v);
     g_signal_connect(v->txt_filtro, "search-changed", G_CALLBACK(on_txt_filtro_changed), v);
 
-    // botones volver de estadisticas y graficas
+    // botones volver de estadísticas y gráficas
     btn_volver_est = GTK_BUTTON(gtk_builder_get_object(b, "btn_volver_menu_estadisticas"));
     btn_volver_gra = GTK_BUTTON(gtk_builder_get_object(b, "btn_volver_menu_graficas"));
     g_signal_connect(btn_volver_est, "clicked", G_CALLBACK(on_btn_volver_menu_clicked), v);
@@ -63,6 +64,7 @@ void ventana_inicializar(DatosVentana *v, GtkBuilder *b) {
     g_signal_connect(v->drawing_grafica, "draw", G_CALLBACK(on_area_grafica_draw), v);
 }
 
+// Libera el dataset y el struct
 void ventana_liberar(DatosVentana *v) {
     if (v == NULL) {
         return;
