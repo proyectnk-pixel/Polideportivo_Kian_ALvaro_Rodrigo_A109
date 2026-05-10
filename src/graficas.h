@@ -5,13 +5,13 @@
 #include <cairo.h>
 #include "ventana.h"
 
-/* callback que llama GTK cuando hay que redibujar el area */
+// callback, llama GTK cuando hay que redibujar el area 
 gboolean on_area_grafica_draw(GtkWidget *widget, cairo_t *cr, gpointer datos);
 
-/* barras de ocupacion media por centro */
+// barras ocupacion media por centro 
 void dibujar_barras_centros(cairo_t *cr, int ancho, int alto, DatosVentana *v);
 
-/* barras de ocupacion media por dia de la semana */
+// barras de ocupacion media por dia de la semana 
 void dibujar_barras_dias(cairo_t *cr, int ancho, int alto, DatosVentana *v);
 
 #endif
