@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+// Reserva memoria para el dataset y para el array de actividades 
 Dataset* datos_crear(void) {
     Dataset *d = malloc(sizeof(Dataset));
     if (d == NULL) {
@@ -11,14 +11,14 @@ Dataset* datos_crear(void) {
 
     d->actividades = malloc(sizeof(Actividad) * MAX_ACTIVIDADES);
     if (d->actividades == NULL) {
-        free(d);
+        free(d);// si falla la segunda reserva, libera la primera
         return NULL;
     }
     d->total = 0;
     d->capacidad = MAX_ACTIVIDADES;
     return d;
 }
-
+// Abre el CSV, salta la cabecera y lee cada línea con scanf
 int datos_cargarCSV(Dataset *d, char *ruta) {
     if (d == NULL) {
         return 0;
@@ -28,7 +28,6 @@ int datos_cargarCSV(Dataset *d, char *ruta) {
     if (f == NULL) {
         return 0;
     }
-
     // salto la cabecera
     char cabecera[512];
     fgets(cabecera, sizeof(cabecera), f);
@@ -42,11 +41,11 @@ int datos_cargarCSV(Dataset *d, char *ruta) {
             break;
         }
 
-        // junto las horas para la tabla
+        // Construimos la franja horaria como "horaInicio - horaFin"
         strcpy(a.franjaHoraria, a.horaInicio);
         strcat(a.franjaHoraria, "-");
         strcat(a.franjaHoraria, a.horaFin);
-
+         // Calcula la ocupacion entre 0 y 1
         if (a.plazasTotales > 0) {
             a.ocupacion = (float)a.plazasOcupadas / a.plazasTotales;
         } else {
@@ -61,7 +60,7 @@ int datos_cargarCSV(Dataset *d, char *ruta) {
     fclose(f);
     return d->total;
 }
-
+// Libera el array de actividades y luego el struct
 void datos_liberar(Dataset *d) {
     if (d == NULL) {
         return;
@@ -105,7 +104,7 @@ char** datos_obtenerCentros(Dataset *d, int *num) {
     *num = n;
     return lista;
 }
-
+// Igual que obtenerCentros pero para nombres de actividad
 char** datos_obtenerActividades(Dataset *d, int *num) {
     *num = 0;
     if (d == NULL || d->total == 0) {
@@ -142,7 +141,7 @@ char** datos_obtenerActividades(Dataset *d, int *num) {
     *num = cont;
     return lista;
 }
-
+// Libera cada string de la lista y luego el array de punteros
 void datos_liberarCentros(char **lista, int n) {
     if (lista == NULL) {
         return;
@@ -153,7 +152,7 @@ void datos_liberarCentros(char **lista, int n) {
     }
     free(lista);
 }
-
+// Calcula la media de ocupacion de todas las actividades
 float datos_ocupacionMedia(Dataset *d) {
     if (d == NULL || d->total == 0) {
         return 0.0f;
@@ -165,7 +164,7 @@ float datos_ocupacionMedia(Dataset *d) {
     }
     return suma / d->total;
 }
-
+// Suma las plazas libres de todas las actividades
 int datos_totalLibres(Dataset *d) {
     if (d == NULL) {
         return 0;
@@ -176,7 +175,7 @@ int datos_totalLibres(Dataset *d) {
     }
     return suma;
 }
-
+// Cuenta cuantas actividades hay en un dia concreto
 int datos_contarPorDia(Dataset *d, char *dia) {
     if (d == NULL || dia == NULL) {
         return 0;
@@ -189,7 +188,7 @@ int datos_contarPorDia(Dataset *d, char *dia) {
     }
     return cnt;
 }
-
+// Cuenta cuantas actividades hay en un mes concreto
 int datos_contarPorMes(Dataset *d, int mes) {
     if (d == NULL) {
         return 0;
