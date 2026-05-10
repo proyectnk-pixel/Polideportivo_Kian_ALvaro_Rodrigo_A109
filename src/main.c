@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
 
     gtk_init(&argc, &argv);
 
-    /* cargo la interfaz desde el archivo glade */
+    // cargamos interfaz
     builder = gtk_builder_new_from_file("ui/menu.glade");
     if (builder == NULL) {
         printf("Error: no se pudo abrir el archivo glade\n");
