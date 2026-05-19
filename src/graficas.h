@@ -6,7 +6,7 @@
 #include "ventana.h"
 
 // callback, llama GTK cuando hay que redibujar el area 
-gboolean on_area_grafica_draw(GtkWidget *widget, cairo_t *cr, gpointer datos);
+void on_area_grafica_draw(GtkWidget *widget, cairo_t *cr, gpointer datos);
 
 // barras ocupacion media por centro 
 void dibujar_barras_centros(cairo_t *cr, int ancho, int alto, DatosVentana *v);
